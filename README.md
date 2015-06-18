@@ -1,5 +1,7 @@
 # File Text Replace (ftreplace) utility
 
+[![Build status](https://ci.appveyor.com/api/projects/status/0reuf6rvv57crl25?svg=true)](https://ci.appveyor.com/project/cebence/ftreplace)
+
 A simple command-line utility that came out of necessity to rewrite C# project's `App.config` and redirect `codebase` references into project's `Debug` folder.
 
 The tool can copy a source (template) file to the destination location, and/or replace all occurrences of `find` string with the `replace` string in the destination file.
