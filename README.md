@@ -15,6 +15,7 @@ The tool will exit with a `0` exit code if everything was OK. Otherwise, if any 
 - `-o <filename>` - Destination filename, required.
 - `-f <string>` - Text to find (plain text, no regular expressions), optional.
 - `-r <string>` - Replacement text (plain text, no regular expressions), optional.
+- `--ignore-case` - Performs case-insensitive string comparisons.
 - `--help` - Displays how the tool is supposed to be used.
 - `--debug` - Displays all values (filenames and strings).
 
@@ -67,6 +68,19 @@ REPLACE: .exe
 EXIT CODE: 0
 ```
 
+This command will replace "user", "USER", "UsEr" etc. into "User", and produce the following output:
+
+```
+> ftreplace -o users.txt -f user -r User --ignore-case --debug
+
+IN: (same as OUT)
+OUT: users.txt
+FIND (case-insensitive): user
+REPLACE: User
+
+EXIT CODE: 0
+```
+
 Finally, an example of why this tool was made - to override DLL references in a templated `App.config` file so the developer can still debug its application from *Visual Studio*:
 
 ```xml
@@ -83,7 +97,7 @@ Finally, an example of why this tool was made - to override DLL references in a 
 **Notes:**
 - `ftreplace.exe` is in the `PATH`.
 - Referenced assemblies have `CopyLocal` set to `true`.
-- Notice the `OutputPath.TrimEnd('\')` to solve the [backslash issue](#backslash-issue) mentioned above.
+- Notice the `OutputPath.TrimEnd('\')` to solve the [backslash issue mentioned above](#backslash-issue).
 
 ## License
 This project is licensed under the [MIT license](LICENSE) so feel free to use it and/or contribute.
@@ -91,7 +105,7 @@ This project is licensed under the [MIT license](LICENSE) so feel free to use it
 If the tool is to be used in a strong-name environment feel free to sign it with the appropriate `.snk` file.
 
 ## TODOs
-- [ ] Add the `--ignore-case` switch.
+- [x] Add the `--ignore-case` switch.
 - [ ] Accept a folder to be specified as destination in which case the source file name and extension should be appended.
 - [ ] Detect `-i == -o` and prevent processing?
 - [x] Make it a [NuGet](https://www.nuget.org/) package and publish it.

@@ -2,7 +2,7 @@
 <package>
   <metadata>
     <id>FileTextReplace</id>
-    <version>1.0.0</version>
+    <version>1.0.1</version>
     <title>FileTextReplace</title>
     <authors>Dejan Ćebetarević</authors>
     <owners>Dejan Ćebetarević</owners>
@@ -12,11 +12,13 @@
     <description>
       FileTextReplace (ftreplace) is a simple command-line utility initially designed to rewrite C# project's "App.config" and redirect "codebase" references into project's "Debug" folder, but implemented to be more configurable and useful.
       The tool can copy a source (template) file to the destination location, and/or replace all occurrences of "find" string with the "replace" string in the destination file.
-      See https://github.com/cebence/ftreplace/blob/master/README.md for details.
+      See https://github.com/cebence/ftreplace/blob/master/README.md for details and examples.
+      IMPORTANT: Be aware of the "trailing backslash issue" and how it pertains to this tool (https://github.com/cebence/ftreplace/blob/master/README.md#backslash-issue).
     </description>
     <summary>FileTextReplace is a command-line that can copy and/or replace text between files.</summary>
     <releaseNotes>
-      Initial release of the tool.
+      Introduced the "--ignore-case" for case-insensitive string comparison.
+      Updated documentation warns about the "trailing backslash" issue.
     </releaseNotes>
     <copyright>Copyright 2015</copyright>
     <tags>development, testing, utility, find-replace</tags>

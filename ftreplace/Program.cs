@@ -4,6 +4,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Text.RegularExpressions;
 
 namespace FileTextReplace {
   /// <summary>
@@ -15,6 +16,7 @@ namespace FileTextReplace {
     #region Command-line options
     private const String ARG_DEBUG = "--debug";
     private const String ARG_HELP = "--help";
+    private const String ARG_IGNORE_CASE = "--ignore-case";
     private const String ARG_INPUT = "-i";
     private const String ARG_OUTPUT = "-o";
     private const String ARG_FIND = "-f";
@@ -28,6 +30,7 @@ namespace FileTextReplace {
 
     private Boolean debugMode;
     private Boolean justTheHelp;
+    private Boolean ignoreCase;
     private String inputFilename;
     private String outputFilename;
     private String findWhat;
@@ -69,7 +72,7 @@ namespace FileTextReplace {
             : "(same as OUT)");
         Console.WriteLine("OUT: {0}", p.outputFilename);
         if (!p.justCopyText) {
-          Console.WriteLine("FIND: {0}", p.findWhat);
+          Console.WriteLine("FIND{0}: {1}", p.ignoreCase ? " (case-insensitive)" : "", p.findWhat);
           Console.WriteLine("REPLACE: {0}", p.replaceWith);
           Console.WriteLine("TEXT: {0}", p.finalText);
         }
@@ -93,6 +96,7 @@ namespace FileTextReplace {
 
       debugMode = GetSwitch(args, ARG_DEBUG);
       justTheHelp = GetSwitch(args, ARG_HELP);
+      ignoreCase = GetSwitch(args, ARG_IGNORE_CASE);
 
       inputFilename = GetArgumentValue(args, ARG_INPUT, null);
       outputFilename = GetArgumentValue(args, ARG_OUTPUT, null);
@@ -126,6 +130,7 @@ namespace FileTextReplace {
       Console.WriteLine("  -o <FILENAME>   File to produce (output file).");
       Console.WriteLine("  -f <STRING>     Text to find, optional together with -r.");
       Console.WriteLine("  -r <STRING>     Replacement text, optional together with -f.");
+      Console.WriteLine("  --ignore-case   Performs case-insensitive string comparisons.");
       Console.WriteLine("  --help          Displays how the tool is supposed to be used.");
       Console.WriteLine("  --debug         Displays all values (filenames and strings).");
       Console.WriteLine();
@@ -138,6 +143,9 @@ namespace FileTextReplace {
       Console.WriteLine();
       Console.WriteLine("- Just copy and rename the file:");
       Console.WriteLine("  ftreplace -i config.template -o app.config");
+      Console.WriteLine();
+      Console.WriteLine("- Replace 'user', 'USER', 'UsEr' etc. into 'User':");
+      Console.WriteLine("  ftreplace -o a.txt -f user -r User --ignore-case");
     }
 
     public void Execute() {
@@ -152,7 +160,7 @@ namespace FileTextReplace {
           && String.Empty.Equals(replaceWith);
 
       if (!justCopyText) {
-        text = ReplaceText(text, findWhat, replaceWith);
+        text = ReplaceText(text, findWhat, replaceWith, ignoreCase);
         finalText = text;
       }
 
@@ -185,8 +193,12 @@ namespace FileTextReplace {
       }
     }
 
-    public static String ReplaceText(String text, String find, String replace) {
-      return text.Replace(find, replace);
+    public static String ReplaceText(String text, String find, String replace, Boolean ignoreCase) {
+      if (!ignoreCase) {
+        return text.Replace(find, replace);
+      }
+
+      return Regex.Replace(text, find, replace, RegexOptions.IgnoreCase);
     }
 
     #region Utility methods
