@@ -24,6 +24,16 @@ If you omit only one of them the tool will exit with an error.
 > **Note:** If you are calling the tool from *Visual Studio* or *MSBuild*, and your find/replace text contains placeholders surrounded with `%`, e.g. `ftreplace -f %SOMETHING%`, **do not forget** to double the `%` like this `ftreplace -f %%SOMETHING%%`.
 > It seems that MSBuild's `Exec` task is trying to resolve anything that resembles an environment variable, and you (actually the tool :smile:) would get an empty string.
 
+<a name="backslash-issue"></a>**IMPORTANT:** I do need to warn you about a nasty issue in this tool :cry: that is not under my control.
+If you pass a path ending with a backslash, e.g. `ftreplace -f "C:\Program Files\MyApp\"`, the tool will actually get `C:\Program Files\MyApp"` and will not be able to find it. Or worse, `ftreplace -r "C:\Program Files\MyApp\"` will apply an invalid path.
+
+> Due to a *feature* :smirk: in the way [Windows' CommandLineToArgvW function (`shell32.dll`)](https://msdn.microsoft.com/en-us/library/windows/desktop/bb776391%28v=vs.85%29.aspx) parses command-line arguments almost all applications - confirmed for .NET and Java - are prone to this issue.
+More details on the issue can be found in these articles:
+- [Commandline args ending in \" are subject to CommandLineToArgvW whackiness](http://weblogs.asp.net/jongalloway//_5B002E00_NET-Gotcha_5D00_-Commandline-args-ending-in-_5C002200_-are-subject-to-CommandLineToArgvW-whackiness)
+- [Backslash and quote in command line arguments](http://stackoverflow.com/questions/9287812/backslash-and-quote-in-command-line-arguments)
+- [Escape command line arguments in c#](http://stackoverflow.com/questions/5510343/escape-command-line-arguments-in-c-sharp)
+- [And this great article](http://www.pseale.com/blog/IHateYouOutDirParameter.aspx)
+
 ## Usage examples
 
 The `help` option overrides all other arguments, i.e. the following command will not do any processing:
@@ -62,17 +72,18 @@ Finally, an example of why this tool was made - to override DLL references in a 
 ```xml
 <Target Name="AfterBuild" Condition="'$(BuildingInsideVisualStudio)' == 'true'">
   <PropertyGroup>
-    <FullOutputPath>$([System.IO.Path]::GetFullPath($([System.IO.Path]::Combine('$(MSBuildProjectDirectory)', '$(OutputPath)'))))</FullOutputPath>
+    <FullOutputPath>$([System.IO.Path]::GetFullPath($([System.IO.Path]::Combine('$(MSBuildProjectDirectory)', '$(OutputPath.TrimEnd('\'))'))))</FullOutputPath>
     <AppConfigPath>$([System.IO.Path]::Combine('$(MSBuildProjectDirectory)', 'App.config'))</AppConfigPath>
     <ExeConfigPath>$([System.IO.Path]::Combine('$(FullOutputPath)', '$(AssemblyName).exe.config'))</ExeConfigPath>
   </PropertyGroup>
-  <Exec Command="ftreplace.exe -i '$(AppConfigPath)' -o '$(ExeConfigPath)' -f SHARED_LIBS_PATH -r '$(FullOutputPath)'"/>
+  <Exec Command='ftreplace.exe -i "$(AppConfigPath)" -o "$(ExeConfigPath)" -f SHARED_LIBS_PATH -r "$(FullOutputPath)"'/>
 </Target>
 ```
 
 **Notes:**
 - `ftreplace.exe` is in the `PATH`.
 - Referenced assemblies have `CopyLocal` set to `true`.
+- Notice the `OutputPath.TrimEnd('\')` to solve the [backslash issue](#backslash-issue) mentioned above.
 
 ## License
 This project is licensed under the [MIT license](LICENSE) so feel free to use it and/or contribute.
