@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package>
+  <metadata>
+    <id>FileTextReplace</id>
+    <version>1.0.0</version>
+    <title>FileTextReplace</title>
+    <authors>Dejan Ćebetarević</authors>
+    <owners>Dejan Ćebetarević</owners>
+    <licenseUrl>https://github.com/cebence/ftreplace/blob/master/LICENSE</licenseUrl>
+    <projectUrl>https://github.com/cebence/ftreplace</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>
+      FileTextReplace (ftreplace) is a simple command-line utility initially designed to rewrite C# project's "App.config" and redirect "codebase" references into project's "Debug" folder, but implemented to be more configurable and useful.
+      The tool can copy a source (template) file to the destination location, and/or replace all occurrences of "find" string with the "replace" string in the destination file.
+      See https://github.com/cebence/ftreplace/blob/master/README.md for details.
+    </description>
+    <summary>FileTextReplace is a command-line that can copy and/or replace text between files.</summary>
+    <releaseNotes>
+      Initial release of the tool.
+    </releaseNotes>
+    <copyright>Copyright 2015</copyright>
+    <tags>development, testing, utility, find-replace</tags>
+  </metadata>
+</package>

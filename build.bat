@@ -1,7 +1,10 @@
 @echo off
 
-rem Set build parameters.
+rem Set configuration to debug, but allow the user to override it.
 set _CONFIG_=/p:Configuration=Debug
+if not [%1]==[] set _CONFIG_=/p:Configuration=%1
+
+rem Set platform to the default one specified in the project.
 set _PLATFORM_=
 
 rem Use .NET Framework SDK 4.5 by default.
