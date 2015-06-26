@@ -1,7 +1,7 @@
 # File Text Replace (ftreplace) utility
 
 [![Build status](https://ci.appveyor.com/api/projects/status/0reuf6rvv57crl25?svg=true)](https://ci.appveyor.com/project/cebence/ftreplace)
-[![NuGet version](https://img.shields.io/nuget/v/echoer.svg)](https://www.nuget.org/packages/FileTextReplace/)
+[![NuGet version](https://img.shields.io/nuget/v/FileTextReplace.svg)](https://www.nuget.org/packages/FileTextReplace/)
 
 A simple command-line utility that came out of necessity to rewrite C# project's `App.config` and redirect `codebase` references into project's `Debug` folder.
 
