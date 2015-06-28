@@ -17,8 +17,8 @@
     </description>
     <summary>FileTextReplace is a command-line that can copy and/or replace text between files.</summary>
     <releaseNotes>
-      Introduced the "--ignore-case" for case-insensitive string comparison.
-      Updated documentation warns about the "trailing backslash" issue.
+Introduced the "--ignore-case" for case-insensitive string comparison.
+Updated documentation warns about the "trailing backslash" issue.
     </releaseNotes>
     <copyright>Copyright 2015</copyright>
     <tags>development, testing, utility, find-replace</tags>
