@@ -2,7 +2,7 @@
 <package>
   <metadata>
     <id>FileTextReplace</id>
-    <version>1.0.1</version>
+    <version>1.0.2</version>
     <title>FileTextReplace</title>
     <authors>Dejan Ćebetarević</authors>
     <owners>Dejan Ćebetarević</owners>
@@ -17,10 +17,12 @@
     </description>
     <summary>FileTextReplace is a command-line that can copy and/or replace text between files.</summary>
     <releaseNotes>
-Introduced the "--ignore-case" for case-insensitive string comparison.
-Updated documentation warns about the "trailing backslash" issue.
+Executable moved to "tools" per NuGet packaging conventions.
     </releaseNotes>
     <copyright>Copyright 2015</copyright>
     <tags>development, testing, utility, find-replace</tags>
   </metadata>
+  <files>
+    <file src="..\build\bin\release\ftreplace.exe" target="tools"/>
+  </files>
 </package>

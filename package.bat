@@ -2,4 +2,4 @@
 
 call build.bat release
 
-nuget pack ftreplace\ftreplace.csproj -Prop Configuration=Release
+nuget pack ftreplace\ftreplace.nuspec -o build
